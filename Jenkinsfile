@@ -2,7 +2,7 @@ pipeline {
   agent any
   environment {
       registry = "momami/repoimage"
-      registryCredential = ‘dockerhub’
+      registryCredential = 'dockerhub'
   }
   stages {
          stage('Back-end build') {
