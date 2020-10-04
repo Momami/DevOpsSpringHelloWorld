@@ -19,9 +19,16 @@ pipeline {
              steps {
                  unstash 'jarFile'
                  sh "ls"
-                 sh "docker build ."
+                 //sh "docker build -t pettest ."
+                 def dockerImage = docker.build("jarFile:pettest", ".")
              }
          }
-
+         stage("Send image to DockerHub") {
+            steps {
+                docker.withRegistry('https://registry-1.docker.io/v2/', 'docker-hub-credentials') {
+                      dockerImage.push()
+                }
+            }
+         }
     }
  }
