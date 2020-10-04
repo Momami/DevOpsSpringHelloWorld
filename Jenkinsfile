@@ -3,6 +3,7 @@ pipeline {
   environment {
       registry = "momami/repoimage"
       registryCredential = 'dockerhub'
+      dockerImage = ''
   }
   stages {
          stage('Back-end build') {
@@ -24,7 +25,7 @@ pipeline {
                  sh "ls"
                  //sh "docker build -t pettest ."
                  script {
-                    def dockerImage = docker.build("pettest", ".")
+                    dockerImage = docker.build("pettest", ".")
                  }
              }
          }
