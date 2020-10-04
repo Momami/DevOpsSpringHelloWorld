@@ -1,6 +1,9 @@
 pipeline {
-    agent any
-
+  agent any
+  environment {
+      registry = "momami/repoimage"
+      registryCredential = ‘dockerhub’
+  }
   stages {
          stage('Back-end build') {
             agent {
@@ -28,7 +31,7 @@ pipeline {
          stage("Send image to DockerHub") {
             steps {
                 script {
-                    docker.withRegistry('https://registry-1.docker.io/v2/', 'docker-hub-credentials') {
+                    docker.withRegistry('', registryCredential) {
                           dockerImage.push()
                     }
                 }
