@@ -25,7 +25,7 @@ pipeline {
                  sh "ls"
                  //sh "docker build -t pettest ."
                  script {
-                    dockerImage = docker.build("${registry}/pettest", ".")
+                    dockerImage = docker.build("${registry}", ".")
                  }
              }
          }
