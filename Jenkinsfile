@@ -21,7 +21,7 @@ pipeline {
                  sh "ls"
                  //sh "docker build -t pettest ."
                  script {
-                    def dockerImage = docker.build("jarFile:pettest", ".")
+                    def dockerImage = docker.build("pettest", ".")
                  }
              }
          }
