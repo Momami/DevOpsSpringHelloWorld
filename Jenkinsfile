@@ -12,10 +12,12 @@ pipeline {
             }
             steps {
                 sh 'mvn clean package'
+                stash includes: 'target/DevOpsSpringHelloWorld-1.0-SNAPSHOT.jar', name: 'jarFile'
             }
          }
          stage("Build image") {
              steps {
+                 unstash 'jarFile'
                  sh "ls"
                  sh "docker build ."
              }
