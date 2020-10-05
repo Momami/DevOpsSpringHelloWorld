@@ -1,7 +1,7 @@
 pipeline {
   agent any
   environment {
-      registry = "momami/repoimage"
+      registry = "momami/petclinic"
       registryCredential = 'dockerhub'
       dockerImage = ''
   }
@@ -23,7 +23,6 @@ pipeline {
              steps {
                  unstash 'jarFile'
                  sh "ls"
-                 //sh "docker build -t pettest ."
                  script {
                     dockerImage = docker.build("${registry}", ".")
                  }
@@ -36,6 +35,7 @@ pipeline {
                           dockerImage.push()
                     }
                 }
+                sh "docker rmi -f ${registry}"
             }
          }
     }
