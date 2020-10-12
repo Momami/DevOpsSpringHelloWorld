@@ -52,9 +52,9 @@ pipeline {
          }
          stage("Test image") {
                steps {
-                   sh "docker run --name devops -itd -p 14002:8080 ${registry}"
+
                    script {
-                   container = dockerImage.run("--name devops -itd -p 14002:8080")
+                       container = dockerImage.run("--name devops -itd -p 14002:8080")
                        def code = sh(script: 'curl -s -o /dev/null -w %{http_code} http://localhost:14002', returnStdout: true).trim()
                        def response = sh(script: 'curl http://localhost:14002', returnStdout: true).trim()
                        if (code == 200 && response == "Hello, world!") {
@@ -74,6 +74,7 @@ pipeline {
                 container.stop()
                 container.remove()
             }
+            sh "docker rmi -f ${registry}"
         }
     }
  }
