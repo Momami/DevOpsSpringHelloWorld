@@ -66,10 +66,10 @@ pipeline {
                    script {
 
                        withDockerNetwork{ n ->
-                           dockerImage.withRun("--name devops --network=host -itd -p 14002:8080") { c ->
+                           dockerImage.withRun("--name devops --network=${n} -itd -p 14002:8080") { c ->
 
-                               def code = sh(script: 'curl -s -o /dev/null -w %{http_code} http://127.0.0.1:14002', returnStdout: true)
-                               def response = sh(script: 'curl http://127.0.0.1:14002', returnStdout: true).trim()
+                               def code = sh(script: 'curl -s -o /dev/null -w %{http_code} http://${n}:14002', returnStdout: true)
+                               def response = sh(script: 'curl http://${n}:14002', returnStdout: true).trim()
                                echo "OOOPS"
                                  if (code == 200 && response == "Hello, world!") {
                                       echo "Test passed"
