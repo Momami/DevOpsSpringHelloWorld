@@ -64,20 +64,22 @@ pipeline {
                steps {
 
                    script {
-
+                       docker.image('')
                        withDockerNetwork{ n ->
-                           dockerImage.withRun("--name devops --network=${n} -itd -p 14002:8080") { c ->
 
-                               def code = sh(script: 'curl -s -o /dev/null -w %{http_code} devops', returnStdout: true)
-                               def response = sh(script: 'curl http://${n}:14002', returnStdout: true).trim()
-                               echo "OOOPS"
-                                 if (code == 200 && response == "Hello, world!") {
-                                      echo "Test passed"
-                                 }
-                                 else {
-                                      echo "Test failed: ${code}, ${response}"
-                                      exit 1
-                                 }
+                           dockerImage.withRun("--name devops --network=${n} -itd -p 14002:8080") { c ->
+                               docker.image('curlimages/curl').inside("--name curl --network=${n}") {
+                                   def code = sh(script: 'curl -s -o /dev/null -w %{http_code} devops', returnStdout: true)
+                                   def response = sh(script: 'curl http://${n}:14002', returnStdout: true).trim()
+                                   echo "OOOPS"
+                                     if (code == 200 && response == "Hello, world!") {
+                                          echo "Test passed"
+                                     }
+                                     else {
+                                          echo "Test failed: ${code}, ${response}"
+                                          exit 1
+                                     }
+                             }
                              }
                            }
 
