@@ -70,6 +70,8 @@ pipeline {
                            dockerImage.withRun("--name devops --network=${n} -itd -p 14002:8080") { c ->
                                docker.image('curlimages/curl').inside("--name curl --network=${n}") {
                                    sh 'sleep 10'
+                                   sh "docker ps"
+
                                    def code = 0//sh(script: 'curl -s -o /dev/null -w %{http_code} devops:14002', returnStdout: true)
                                    def response = sh(script: 'curl devops:14002', returnStdout: true).trim()
                                    echo "OOOPS"
