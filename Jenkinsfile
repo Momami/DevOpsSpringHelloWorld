@@ -68,7 +68,7 @@ pipeline {
                        withDockerNetwork{ n ->
                            dockerImage.withRun("--name devops --network=${n} -itd -p 14002:8080") { c ->
 
-                               def code = sh(script: 'curl -s -o /dev/null -w %{http_code} http://${n}:14002', returnStdout: true)
+                               def code = sh(script: 'curl -s -o /dev/null -w %{http_code} devops', returnStdout: true)
                                def response = sh(script: 'curl http://${n}:14002', returnStdout: true).trim()
                                echo "OOOPS"
                                  if (code == 200 && response == "Hello, world!") {
