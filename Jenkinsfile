@@ -69,8 +69,8 @@ pipeline {
 
                            dockerImage.withRun("--name devops --network=${n} -itd -p 14002:8080") { c ->
                                docker.image('curlimages/curl').inside("--name curl --network=${n}") {
-                                   def code = sh(script: 'curl -s -o /dev/null -w %{http_code} devops', returnStdout: true)
-                                   def response = sh(script: 'curl http://${n}:14002', returnStdout: true).trim()
+                                   def code = sh(script: 'curl -s -o /dev/null -w %{http_code} devops:14002', returnStdout: true)
+                                   def response = sh(script: 'curl devops:14002', returnStdout: true).trim()
                                    echo "OOOPS"
                                      if (code == 200 && response == "Hello, world!") {
                                           echo "Test passed"
