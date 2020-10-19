@@ -69,9 +69,9 @@ pipeline {
                                 .inside("""
                                     --name curl_container
                                     --network ${n}
-                                    --health-cmd='curl -sS devops:8080 || exit 1' \
-                                        --health-timeout=10s \
-                                        --health-retries=3 \
+                                    --health-cmd='curl -sS devops:8080 || exit 1'
+                                        --health-timeout=10s
+                                        --health-retries=3
                                         --health-interval=5s
                                     """) {
                                     def code = sh(script: 'curl -s -o /dev/null -w "%{http_code}" devops:8080', returnStdout: true)
