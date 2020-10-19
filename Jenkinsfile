@@ -65,14 +65,11 @@ pipeline {
                 script {
                     withDockerNetwork{ n ->
                         dockerImage.withRun("--name devops --network ${n} -p 14002:8080") { c ->
+                            docker.inspect("devops | grep 'Running' | awk -F ':' '{print $2}'")
                             docker.image('curlimages/curl')
                                 .inside("""
                                     --name curl_container
                                     --network ${n}
-                                    --health-cmd='curl -sS devops:8080 || exit 1'
-                                        --health-timeout=10s
-                                        --health-retries=3
-                                        --health-interval=5s
                                     """) {
                                     def code = sh(script: 'curl -s -o /dev/null -w "%{http_code}" devops:8080', returnStdout: true)
                                     def response = sh(script: 'curl devops:8080', returnStdout: true).trim()
