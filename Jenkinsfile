@@ -65,7 +65,6 @@ pipeline {
 
                    script {
                        withDockerNetwork{ n ->
-                                sh "docker run --name devops --network ${n} -it -p 14002:8080 momami/petclinic"
                            dockerImage.withRun("--name devops --network ${n} -p 14002:8080") { c ->
                                docker.image('curlimages/curl')
                                     .run("""
