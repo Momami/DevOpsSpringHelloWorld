@@ -72,7 +72,9 @@ pipeline {
                                         --name curl_container
                                         --network ${n}
                                      """) {
-                                   sh "docker ps"
+                                    docker.image('alpine').inside("--network ${n}") {container ->
+                                          sh 'docker ps'
+                                    }
                                    def code = 0//sh(script: 'curl -s -o /dev/null -w %{http_code} devops:14002', returnStdout: true)
                                    def response = sh(script: 'curl devops:8080', returnStdout: true).trim()
                                    echo "OOOPS"
