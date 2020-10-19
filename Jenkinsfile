@@ -64,11 +64,11 @@ pipeline {
                steps {
 
                    script {
-                       docker.image('')
                        withDockerNetwork{ n ->
 
                            dockerImage.withRun("--name devops --network ${n} -itd -p 14002:8080") { c ->
                                docker.image('curlimages/curl').inside("--name curl --network ${n} --link ${c.id}:devo") {
+                                   sh 'while ! ping -h devo --silent; do sleep 1; done'
                                    def code = 0//sh(script: 'curl -s -o /dev/null -w %{http_code} devops:14002', returnStdout: true)
                                    def response = sh(script: 'curl http://devops:14002', returnStdout: true).trim()
                                    echo "OOOPS"
