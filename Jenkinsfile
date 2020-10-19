@@ -64,7 +64,10 @@ pipeline {
             steps {
                 script {
                     withDockerNetwork{ n ->
-                        dockerImage.withRun("--name devops --network ${n} -p 14002:8080") { c ->
+                        dockerImage.withRun("--name devops --network ${n} -p 14002:8080 --health-cmd='curl -sS http://devops:14002 || echo 1' \
+                                                                                            --health-timeout=10s \
+                                                                                            --health-retries=3 \
+                                                                                            --health-interval=5s") { c ->
                             sh 'docker inspect devops | grep \'Running\' | awk -F \':\' \'{print $2}\''
                             docker.image('curlimages/curl')
                                 .inside("""
