@@ -73,7 +73,7 @@ pipeline {
                                     sh "sleep 10"
                                     def code = sh(script: 'curl -s -o /dev/null -w "%{http_code}" devops:8080', returnStdout: true)
                                     def response = sh(script: 'curl devops:8080', returnStdout: true).trim()
-                                    if (code == 200 && response == "Hello, world!") {
+                                    if (code == "200" && response == "Hello, world!") {
                                         echo "Test passed"
                                     }
                                     else {
