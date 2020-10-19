@@ -64,7 +64,7 @@ pipeline {
             steps {
                 script {
                     withDockerNetwork{ n ->
-                        dockerImage.withRun("--name devops --network ${n} -p 14002:8080 --health-cmd='curl -sS http://devops:14002 || echo 1' \
+                        dockerImage.withRun("--name devops --network ${n} -p 14002:8080 --health-cmd='curl -sS http://127.0.0.1:14002 || echo 1' \
                                                                                             --health-timeout=10s \
                                                                                             --health-retries=3 \
                                                                                             --health-interval=5s") { c ->
@@ -74,7 +74,6 @@ pipeline {
                                     --name curl_container
                                     --network ${n}
                                     """) {
-                                    sh 'sleep 5'
                                     def code = sh(script: 'curl -s -o /dev/null -w "%{http_code}" devops:8080', returnStdout: true)
                                     def response = sh(script: 'curl devops:8080', returnStdout: true).trim()
                                     if (code == "200" && response == "Hello, world!") {
