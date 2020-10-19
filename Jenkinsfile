@@ -65,7 +65,7 @@ pipeline {
                 script {
                     withDockerNetwork{ n ->
                         dockerImage.withRun("--name devops --network ${n} -p 14002:8080") { c ->
-                            sh "docker inspect devops | grep 'Running' | awk -F ':' '{print $2}'"
+                            sh 'docker inspect devops | grep \'Running\' | awk -F \':\' \'{print $2}\''
                             docker.image('curlimages/curl')
                                 .inside("""
                                     --name curl_container
