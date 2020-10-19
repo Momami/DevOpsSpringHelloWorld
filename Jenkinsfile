@@ -74,7 +74,7 @@ pipeline {
                                         -p 9002:8080
                                      """) {
                                    def code = 0//sh(script: 'curl -s -o /dev/null -w %{http_code} devops:14002', returnStdout: true)
-                                   def response = sh(script: 'curl devops', returnStdout: true).trim()
+                                   def response = sh(script: 'curl devops:14002', returnStdout: true).trim()
                                    echo "OOOPS"
                                      if (code == 200 && response == "Hello, world!") {
                                           echo "Test passed"
