@@ -65,13 +65,14 @@ pipeline {
 
                    script {
                        withDockerNetwork{ n ->
-
-                           dockerImage.run("--name devops --network ${n} -p 14002:8080")// { c ->
-                               docker.image('curlimages/curl')
-                                    .run("""
-                                        --name curl_container
-                                        --network ${n}
-                                     """) //{
+                                sh "docker run --name devops --network ${n} -it -p 14002:8080 momami/petclinic"
+                           //dockerImage.run("--name devops --network ${n} -p 14002:8080")// { c ->
+//                                docker.image('curlimages/curl')
+//                                     .run("""
+//                                         --name curl_container
+//                                         --network ${n}
+//                                      """) //{
+                                sh "docker run --name curl_c --network ${n} -it curlimages/curl"
                                     sh "docker ps"
                                    def code = 0//sh(script: 'curl -s -o /dev/null -w %{http_code} devops:14002', returnStdout: true)
                                    def response = sh(script: 'curl devops:8080', returnStdout: true).trim()
