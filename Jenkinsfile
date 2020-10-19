@@ -71,9 +71,8 @@ pipeline {
                                     --network ${n}
                                     """) {
                                     sh "sleep 10"
-                                    def code = 0 //sh(script: 'curl -s -o /dev/null -w %{http_code} devops:14002', returnStdout: true)
+                                    def code = sh(script: 'curl -s -o /dev/null -w "%{http_code}"" devops:8080', returnStdout: true)
                                     def response = sh(script: 'curl devops:8080', returnStdout: true).trim()
-                                    echo "OOOPS"
                                     if (code == 200 && response == "Hello, world!") {
                                         echo "Test passed"
                                     }
