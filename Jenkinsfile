@@ -87,4 +87,9 @@ pipeline {
             }
         }
     }
+    post {
+        always {
+            sh 'docker rmi -f $registry'
+        }
+    }
 }
