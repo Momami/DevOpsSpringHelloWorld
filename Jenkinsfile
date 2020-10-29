@@ -75,7 +75,6 @@ pipeline {
                                     def response = sh(script: 'curl devops:8080', returnStdout: true).trim()
                                     assert code == "200" && response == "Hello, world!"
 
-                                }
                             }
                         }
                     }
